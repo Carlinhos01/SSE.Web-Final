@@ -1,0 +1,2926 @@
+/* usos globais */
+
+@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --primary-clr: #1C5845;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Bruno Ace", sans-serif;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-clr);
+  border-radius: 50px;
+}
+
+html {
+  min-width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
+  top: 0 !important;
+  right: 0 !important;
+  position: fixed;
+}
+
+/* body */
+body {
+  position: relative;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  overflow: hidden;
+  top: 0;
+}
+
+.micro-interacoes {
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+}
+
+.poligon1 {
+  position: absolute;
+  width: 15rem;
+  top: -100px;
+  left: -100px;
+  float: left;
+  transform: rotate(20deg);
+}
+
+.poligon2 {
+  position: absolute;
+  width: 20rem;
+  bottom: 50px;
+  right: -30px;
+  float: right;
+  transform: rotate(40deg);
+
+}
+
+.poligon3 {
+  position: absolute;
+  width: 15rem;
+  top: 150px;
+  left: 500px;
+  float: left;
+  transform: rotate(75deg);
+
+}
+
+.poligon4 {
+  position: absolute;
+  width: 30rem;
+  right: 600px;
+  float: right;
+  bottom: -175px;
+  transform: rotate(100deg);
+
+}
+
+.poligon5 {
+  position: absolute;
+  width: 25rem;
+  float: left;
+  bottom: -175px;
+  left: -50px;
+  transform: rotate(50deg);
+}
+
+.poligon6 {
+  position: absolute;
+  width: 25rem;
+  right: 350px;
+  float: right;
+  top: -100px;
+}
+
+/* cont: usado como conteiner da parte esquerda  */
+.cont {
+  width: 80%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+}
+
+
+.head {
+  width: 100%;
+  height: 5vw;
+  left: 0;
+  border-bottom: 3px solid rgba(228, 213, 199, 0.20);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+}
+
+.logo-cont {
+  width: 11vw;
+  height: 5vw;
+  margin-left: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-cont h1 {
+  color: var(--primary-clr);
+  font-size: 1.8vw;
+  font-weight: bolder;
+}
+
+.logo-cont img {
+  height: 3.5vw;
+}
+
+.section-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+  height: 100%;
+}
+
+.user-rota {
+  font-size: 1.4rem;
+  letter-spacing: .25rem;
+  font-weight: 600;
+  color: #222;
+  position: relative;
+  cursor: pointer;
+}
+
+.user-rota::after {
+  content: '';
+  width: 0%;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--primary-clr);
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  transition: .5s ease-in-out;
+}
+
+.user-rota:hover::after {
+  content: '';
+  width: 80%;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--primary-clr);
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  transition: .5s ease-in-out;
+}
+
+.cont-btm {
+  width: 100%;
+  height: 90px;
+  position: absolute;
+  top: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.btm-unic {
+  width: 300px;
+  margin-left: 50px;
+  height: 100%;
+}
+
+.btm-group {
+  width: 300px;
+  margin-left: 50px;
+  height: 100%;
+}
+
+.ef_traz-btm {
+  width: 100%;
+  height: 80px;
+  background-color: #494949;
+  position: relative;
+  border-radius: 20px;
+  bottom: -10px;
+  z-index: -21;
+}
+
+.cont-btm .btm-1 {
+  position: relative;
+  background-color: #585858;
+  width: 100%;
+  height: 80px;
+  border: 5px solid #494949;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: .1s ease-in-out;
+  top: -80px;
+  padding: 0 20px;
+  border-radius: 20px;
+}
+
+.cont-btm .btm-1:active {
+  transform: translateY(10px);
+}
+
+.cont-btm .btm-1 h3 {
+  color: #fff;
+  font-size: 1.4rem;
+  letter-spacing: .5rem;
+}
+
+
+.cont-btm .btm-1 img {
+  height: 60%;
+}
+
+
+.cont-btm .btm-2 {
+  position: relative;
+  background-color: #585858;
+  width: 100%;
+  height: 80px;
+  border: 5px solid #494949;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: .1s ease-in-out;
+  top: -80px;
+  padding: 0 20px;
+  border-radius: 20px;
+}
+
+.cont-btm .btm-2:active {
+  transform: translateY(10px);
+}
+
+.cont-btm .btm-2 h3 {
+  color: #fff;
+  font-size: 1.4rem;
+  letter-spacing: .5rem;
+}
+
+
+.cont-btm .btm-2 img {
+  height: 60%;
+}
+
+/* Estilos para o container de usuários */
+.conteiner-user-unic {
+  position: absolute;
+  background-color: var(--primary-clr);
+  /* Cor de fundo definida pela variável */
+  width: 90%;
+  bottom: 0;
+  left: 50px;
+  height: 70%;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  transition: bottom 0.5s ease-in-out;
+}
+
+/* Estilos para o container de grupo de usuários */
+.conteiner-user-group {
+  background-color: var(--primary-clr);
+  /* Cor de fundo rosa */
+  position: absolute;
+  width: 90%;
+  bottom: -70%;
+  left: 50px;
+  height: 70%;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  transition: bottom .5s ease-in-out;
+}
+
+/* Estilos para o ícone de usuário */
+.cont-all-user {
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  height: 100%;
+  width: 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para o ícone de usuário de login */
+.cont-user-login {
+  background-color: var(--primary-clr);
+  /* Cor de fundo definida pela variável */
+  left: 0;
+  top: 0;
+  z-index: 100;
+  height: 3vw;
+  width: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* Estilos para o container de adição de usuário */
+.cont-add-user {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+/* Estilos para a barra de pesquisa de usuário */
+.pesquisa-user {
+  width: 90%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  left: 0;
+  top: 0;
+  margin-top: 40px;
+}
+
+/* Estilos para o input de pesquisa de usuário */
+.pess-input-user {
+  background-color: #fff;
+  /* Cor de fundo branca */
+  width: 80%;
+  height: 100%;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 30px;
+  outline: none;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #1C5845;
+  /* Cor do texto */
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Estilos para o placeholder do input de pesquisa de usuário */
+.pess-input-user::placeholder {
+  color: hsla(161, 52%, 23%, 0.5);
+  /* Cor do placeholder */
+}
+
+/* Estilos para o botão de adicionar usuário */
+.btn-unic-pess {
+  background-color: #fff;
+  /* Cor de fundo branca */
+  border: none;
+  height: 100%;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-unic-pess i {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5em;
+  color: var(--primary-clr);
+}
+
+.add-user {
+  background-color: #fff;
+  margin-bottom: 80px;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 90%;
+  overflow-y: auto;
+  /* Alterado para auto para adicionar scroll vertical */
+  max-height: 300px;
+  /* Defina um valor apropriado para max-height */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  min-height: 400px;
+
+}
+
+.add-group {
+  background-color: #fff;
+  margin-bottom: 80px;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 90%;
+  overflow-y: auto;
+  /* Alterado para auto para adicionar scroll vertical */
+  max-height: 300px;
+  /* Defina um valor apropriado para max-height */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  min-height: 400px;
+
+}
+
+.user-item {
+  margin-bottom: 15px;
+  text-decoration: none;
+  list-style-type: none;
+  padding-bottom: 15px;
+  background-color: #eeeeee;
+  height: 3vw;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  border-radius: 10px;
+}
+
+/* Remover a borda inferior do último item */
+.user-item:last-child {
+  margin-bottom: 0px;
+  border-bottom: none;
+}
+
+.add-user::-webkit-scrollbar {
+  width: 10px;
+}
+
+.add-user::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.add-user::-webkit-scrollbar-thumb {
+  background: var(--primary-clr);
+  /* cor do botão da barra de rolagem */
+  border-radius: 0;
+}
+
+.add-user::-webkit-scrollbar-thumb:hover {
+  background: #174738;
+  /* cor do botão da barra de rolagem ao passar o mouse */
+}
+
+
+
+
+.addmodal {
+  display: none;
+  position: fixed;
+  z-index: 111111111111111111111111111111;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
+  align-items: center;
+  justify-content: center;
+}
+
+.addmodal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  width: 40%;
+  height: 40vw;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.forms {
+  background-color: cadetblue;
+  overflow-y: auto;
+  max-height: 60vh;
+  min-height: 60vh;
+  padding: 10px;
+}
+
+#add-user-form {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: var(--primary-clr);
+  height: auto;
+  width: 100%;
+  position: relative;
+  padding: 1vw;
+  border-radius: .5vw;
+  color: #4e4943;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+
+.btn-submit {
+  background-color: #1C5845;
+  color: white;
+  width: 94%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  position: absolute;
+  bottom: 1vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-submit:hover {
+  background-color: #174738;
+}
+
+
+
+.addmodal-close:hover,
+.addmodal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.addmodal-content h2 {
+  margin-top: .3vw;
+  margin-bottom: 20px;
+  color: #174738;
+  text-align: center;
+  font-size: 1.3vw;
+  letter-spacing: 2px;
+}
+
+
+.modal-cont-user {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 111111111111111111111111111111111111;
+  left: 0;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content-user {
+  position: relative;
+  width: 60%;
+  height: 80%;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+
+
+.navbar {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 100px;
+  border-bottom: 5px solid rgba(228, 213, 199, 0.4);
+}
+
+.nav-item {
+  color: #424242;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.nav-item.active {
+  color: var(--primary-clr);
+}
+
+.modal-screen {
+  width: 100%;
+  height: calc(100% - 250px);
+  z-index: 10111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-screen.active {
+  position: absolute;
+  top: 250px;
+}
+
+.cont-modal-user-dados {
+  background-color: white;
+  overflow: hidden;
+}
+
+.cont-modal-user-carteirinha {
+  background-color: yellow;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cont-modal-user-chat {
+  background-color: white;
+}
+
+.cont-modal-user-responsavel {
+  background-color: white;
+}
+
+.cont-modal-inicio {
+  background-color: slateblue;
+}
+
+.line {
+  position: absolute;
+  top: 68px;
+  left: -20px;
+  width: 5px;
+  height: 5px;
+  background-color: var(--primary-clr);
+  border-radius: 10px;
+  transition: .5s ease-in-out;
+}
+
+
+.desc-user-inform {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 100px;
+  padding-right: 25px;
+  border-bottom: 5px solid rgba(228, 213, 199, 0.4);
+}
+
+
+
+.cont-user-icon {
+  background-color: var(--primary-clr);
+  width: 90px;
+  height: 90px;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.cont-user-icon-dentro {
+  background-color: #fff;
+  width: 70px;
+  height: 70px;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-icon-modal {
+  font-size: 2.2rem;
+  /* Tamanho do ícone */
+  font-style: normal
+}
+
+.cont-user-icon-traz {
+  background-color: #174738;
+  width: 90px;
+  height: 90px;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  top: 10px;
+  position: absolute;
+  z-index: -200;
+}
+
+.cont-user-name {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-name {
+  font-size: 2rem;
+  font-weight: bold;
+  /* Deixa o nome em negrito para destacar */
+  color: var(--primary-clr);
+  letter-spacing: 3px;
+  text-transform: capitalize;
+}
+
+.cont-close-modal {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  top: 0;
+}
+
+.close-modal {
+  cursor: pointer;
+  /* Muda o cursor para indicar que é clicável */
+  color: var(--primary-clr);
+  /* Cor do ícone de fechar */
+  font-size: 4rem;
+}
+
+.close-modal:hover {
+  color: #174738;
+  /* Muda a cor do ícone de fechar ao passar o mouse sobre ele */
+}
+
+
+/* chat */
+
+
+.chat-box {
+  width: 100%;
+  height: 100%;
+}
+
+.chat-box .user-header h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.chat-box .user-header span {
+  font-size: 1rem;
+}
+
+.messagesContainer {
+  max-height: 80%;
+  overflow-y: auto;
+  min-height: 80%;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chat-box .messages {
+  width: 80%;
+}
+
+.messages .self {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.messages span {
+  font-size: 10px;
+}
+
+.messages .self p {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  border-radius: 10px;
+  background-color: #55b3f3;
+  color: white;
+  text-align: right;
+  font-size: 1.2rem;
+}
+
+.messages .self span {
+  margin-left: 50px;
+}
+
+.messages .other {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.messages .other p {
+  display: flex;
+  font-size: 1.2rem;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  background-color: rgba(32, 33, 35, 0.2);
+}
+
+.messages .other span {
+  margin-left: 50px;
+}
+
+.chat-box form {
+  height: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+}
+
+.container-input {
+  border-radius: 15px;
+  background: #e8e8e8;
+  border: 5px solid #ccc;
+  width: 100%;
+  color: white;
+  height: 60px;
+  font-size: 18px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  fill: #333;
+  width: 30px;
+  height: auto;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+input:focus {
+  outline: none;
+}
+
+.submit-button {
+  margin-left: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-button .svg {
+  float: right;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  height: 50px;
+  color: #ccc;
+}
+
+.submit-button .input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  fill: #333;
+  width: 30px;
+  height: auto;
+}
+
+/* fim chat */
+
+
+
+
+
+
+
+
+
+.cont-user-login a {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cont-user-login a img {
+  height: 80%;
+  width: 80%;
+}
+
+.calendar-rotas {
+  font-size: 1.4rem;
+  letter-spacing: .25rem;
+  font-weight: 600;
+  color: #222;
+  position: relative;
+  cursor: pointer;
+}
+
+.calendar-rotas::after {
+  content: '';
+  width: 0%;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--primary-clr);
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  transition: .5s ease-in-out;
+}
+
+.calendar-rotas:hover::after {
+  content: '';
+  width: 80%;
+  height: 5px;
+  border-radius: 3px;
+  background-color: var(--primary-clr);
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  transition: .5s ease-in-out;
+}
+
+/* add-event-wrapper: usado como modal principal para colocar dados de lembretes  */
+.add-event-wrapper {
+  position: absolute;
+  width: 50%;
+  max-height: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: var(--primary-clr);
+  transform: translateX(-50%);
+  transition: max-height 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 100000000000000000000000000000;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+
+/* add-event-wrapper.active: quando o modal é aberto  */
+.add-event-wrapper.active {
+  max-height: 80%;
+  transition: max-height 1s ease;
+}
+
+/* add-event-header: é a parte em cime onde está o titulo do lembrete e o botão de fechar */
+.add-event-header {
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #E4D5C7;
+  border-bottom: 3px solid #ffffff;
+}
+
+.add-event-header .close {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+.add-event-header .title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #E4D5C7;
+
+}
+
+/* add-event-body: é o corpo do modal, onde o conteúdo é colocado */
+.add-event-body {
+  width: 100%;
+  height: 475px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px;
+  background-color: var(--primary-clr);
+}
+
+/* enunciado: é o titulo de cada input */
+.enunciado {
+  color: #E4D5C7;
+  left: 0;
+  margin: 20px 10px;
+  top: -90px;
+  font-size: 1.5rem;
+  margin-bottom: -25px;
+}
+
+/* add-event-input: é o conjunto do input e o ef_traz */
+.add-event-body .add-event-input {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  top: 60px;
+  margin-bottom: 30px;
+  position: relative;
+  transition: 0.5s ease linear;
+}
+
+/* ef_traz: serve para dar o efeito de precionado */
+.add-event-body .add-event-input .ef_traz {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  background-color: #95877A;
+  padding: 0 20px;
+  margin-bottom: 55px;
+  border-radius: 7px;
+  top: -23px;
+}
+
+/* add-event-input input: é o input para guardar os dados */
+.add-event-body .add-event-input input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border: 3px solid #95877A;
+  background-color: #e0e0e0;
+  padding: 0 20px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #373c4f;
+  margin-bottom: 55px;
+  border-radius: 7px;
+  position: absolute;
+  transition: 0.5s ease linear;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-event-body .add-event-input input::placeholder {
+  color: rgba(148, 135, 122, 0.5);
+}
+
+/* input:active: serve para dar o efeito de profundidade */
+.add-event-body .add-event-input input:active {
+  transform: translateY(5px);
+}
+
+/* cont_time: serve para juntar os inputs de tempo */
+.cont_time {
+  width: 37%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  top: 40px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* time: é uma estilização para deixar o input com um determinado tamanho */
+.add-event-input.time {
+  width: 120px !important;
+
+}
+
+/* input.event-time-from: serve para estilizar o input do primeiro tempo */
+.add-event-body .add-event-input input.event-time-from {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 2px;
+}
+
+/* input.event-time-to: serve para estilizar o input do último tempo */
+.add-event-body .add-event-input input.event-time-to {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 2px;
+}
+
+/* cont_times: serve para juntar os inputs de cor e usuario */
+.cont_times {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  top: 40px;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  padding: 6px;
+}
+
+
+/* input-cor: input onde irá guardar as cores  */
+.input-cor {
+  max-width: 40px;
+  margin-right: 30px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+}
+
+/* bt_cor: estilização do botão da cor */
+.bt_cor {
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  width: 120% !important;
+  height: 120% !important;
+  border: none !important;
+}
+
+/* cor_escolhida: serve para mostrar a cor e abrirá o modal */
+.cor_escolhida {
+  z-index: 10000000000000000;
+  background-color: darkcyan;
+  position: absolute;
+  width: 80% !important;
+  height: 80% !important;
+  top: -60%;
+}
+
+.cor_escolhida:active,
+.cor_escolhida:active+input.bt_cor {
+  transform: translateY(8px);
+}
+
+/* input-cont: serve para juntar os conjuntos do usuario */
+.input-cont {
+  width: 90% !important;
+}
+
+/* cont-user-geral: serve para juntar os conjuntos do usuario */
+.cont-user-geral {
+  min-width: 100%;
+  background-color: #e0e0e0;
+  height: 75px;
+  margin-top: -50px;
+  border-radius: 10px;
+  padding-left: 10px;
+  border: 3px solid #95877A;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+/* cont_conteiner: serve para juntar o botão com o ef_traz */
+.cont_conteiner {
+  width: 100%;
+  max-width: 60px;
+  min-height: 70px;
+  position: absolute;
+  transition: 0.5s ease linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  left: 10px;
+}
+
+/* ef_traz: serve para dar o efeito de precionado */
+.cont_conteiner .ef_traz {
+  width: 100%;
+  position: relative;
+  height: 100%;
+  background-color: #95877A;
+  border-radius: 7px;
+  margin-top: 33px;
+}
+
+/* bt_cont: serve para estilizar o dimensionamento do botão dos usuarios */
+.bt_cont {
+  max-width: 50px;
+  max-height: 50px;
+  z-index: 1000;
+  position: relative;
+  top: -2px;
+}
+
+/* bt_conts: serve para estilizar o dimensionamento do botão dos usuarios */
+.bt_conts {
+  max-width: 50px;
+  max-height: 50px;
+  z-index: 1000;
+  position: relative;
+  top: -4.70px;
+  border: 3px solid #95877A;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.selected-users-container {
+  display: flex;
+  white-space: nowrap;
+  max-width: 90% !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 70px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  margin-left: 70px !important;
+  max-width: 100%;
+}
+
+/* selected-users-container::-webkit-scrollbar: serve para almentar o tamanho da scrollbar */
+.selected-users-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.bt_conts,
+.selected-users-container {
+  margin: 10px;
+}
+
+/* add-event-footer: serve para colocar o botão de adicionar lembretes */
+.add-event-footer {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  width: 50%;
+  height: auto;
+}
+
+/* add-event-btn:  estilizar botão de lembretes */
+.add-event-footer .add-event-btn {
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  position: relative;
+  padding: 20px;
+  margin: -20px;
+  background-color: var(--primary-clr);
+  border-radius: 5px;
+  cursor: pointer;
+  border: 3px solid #fff;
+  z-index: 1111;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.add-event-footer .add-event-btn:hover {
+  background-color: #fff;
+  color: var(--primary-clr);
+  font-weight: bolder;
+}
+
+.add-event-footer .add-event-btn:active {
+  transform: translateY(5px);
+}
+
+/* ef_traz-btn:  sever para colocar a div atrás do botão de adicionar */
+.ef_traz-btn {
+  width: 79%;
+  height: 50%;
+  position: absolute;
+  top: 5px;
+  background-color: #ffffff;
+  z-index: 1;
+  top: 28px;
+  border-radius: 5px;
+  border: 3px solid #fff;
+}
+
+/* modal:  sever para colocar um modal das cores */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000000000000000;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 20% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  top: 0;
+  margin-top: 5%;
+}
+
+
+.color-list {
+  list-style-type: none;
+  padding: 0;
+  border-top: 1px solid #ddd;
+}
+
+.color-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.color-list li span:first-child {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.color-list li span:last-child {
+  flex-grow: 1;
+}
+
+/* mod-pess:  sever para colocar um modal das pessoas */
+.mod-pess {
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.mod-pess-cont {
+  border: none;
+  width: 50vw !important;
+  min-height: 80vh;
+  max-height: 80vh;
+  padding: 50px 30px;
+  background-color: var(--primary-clr);
+  position: relative;
+  overflow: hidden;
+}
+
+.mod-pess-cont-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 60px;
+  width: 100%;
+}
+
+.mod-pess-input {
+  background-color: #E4D5C7;
+  height: 50px;
+  border: 3px solid #95877A;
+  border-radius: 10px;
+  padding: 0px 20px;
+  width: 100%;
+  color: #95877A;
+  font-weight: 900;
+  letter-spacing: .1vw;
+}
+.mod-pess-input::placeholder{
+  color: #95877A;
+  font-weight: 900;
+  letter-spacing: .1vw;
+}
+.mod-pess-close {
+  background-color: #E4D5C7;
+  float: none;
+  height: 50px;
+  width: 12vw;
+  border: 3px solid #95877A;
+  border-radius: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 2vw;
+  right: 2vw;
+  font-size: 1vw;
+}
+
+.mod-pess-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: var(--primary-clr);
+  height: 15vw;
+  width: 100%;
+  position: relative;
+  padding: 1vw;
+  border-radius: .5vw;
+  color: #4e4943;
+  overflow-y: auto; /* Adicionando scroll vertical */
+  border: 3px solid #174738;
+  margin-top: 2vw;
+  padding-top: 3vw;
+}
+.users-cont-text{
+  background-color: yellow;
+  height: 2vw;
+  width: 7vw;
+}
+
+
+.mod-pess-card::-webkit-scrollbar {
+  display: none;
+}
+
+.mod-pess-user-cont {
+  background-color: #E4D5C7;
+  display: flex;
+  border-radius: 15px;
+  align-items: center;
+  max-height: 200px;
+  flex-direction: column;
+  width: 100%;
+  justify-content: start;
+  height: 100px;
+}
+
+
+
+.mod-pess-strong {
+  padding-top: 15px;
+  float: left;
+  position: relative;
+  left: 0;
+  padding-bottom: 10px;
+}
+
+.mod-pess-list {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: mandatory;
+  scroll-behavior: smooth;
+  padding-top: 10px;
+}
+
+.mod-pess-list::-webkit-scrollbar {
+  width: 10px;
+  position: absolute;
+}
+
+
+/* mod-pess-unic-pess:  colocado para armazenar dados do usuario selecionado dentro do modal de pesquisa */
+.mod-pess-unic-pess {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  margin: 10px 2px;
+  height: 35px;
+  width: 90%;
+  border-bottom: 3px solid #174738;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+/* container:  sever para juntar o calendario com os lembretes */
+.container {
+  position: relative;
+  width: 20vw;
+  height: 100vh !important;
+  color: #fff;
+  display: flex;
+  right: 0 !important;
+  top: 0 !important;
+  border-radius: 10px;
+  flex-direction: column;
+  border-left: 3px solid rgba(228, 213, 199, 0.20);
+}
+
+
+/* left:  a parte de cima do container onde fica o calendario */
+.left {
+  width: 100%;
+}
+
+/* calendar:  calendario */
+.calendar {
+  position: relative;
+  width: 100%;
+  height: 25vw;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: #878895;
+  top: 0;
+  border-radius: 5px;
+  top: 0 !important;
+}
+
+/* month: mês */
+.calendar .month {
+  width: 100%;
+  height: 3vw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 2.3vw;
+  font-size: 1.2vw;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.calendar .month .prev,
+.calendar .month .next {
+  cursor: pointer;
+}
+
+.calendar .month .prev:hover,
+.calendar .month .next:hover {
+  color: var(--primary-clr);
+}
+
+/* weekdays: semanas */
+.calendar .weekdays {
+  width: 100%;
+  height: 2.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 .6vw;
+  font-size: 0.7vw;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--primary-clr);
+  letter-spacing: 0.1vw;
+}
+
+/* weekdays div: dia das semanas */
+.weekdays div {
+  width: 14.28%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+/* days: dias no total */
+.calendar .days {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 .6vw;
+  font-size: .8vw;
+  font-weight: 500;
+}
+
+.calendar .days .active {
+  position: relative;
+  color: #fff !important;
+  background-color: #fff;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  z-index: 50;
+}
+
+.calendar .days:not(.today) .active {
+  background-color: var(--primary-clr) !important;
+}
+
+/* day: dias separadamente */
+.calendar .days .day {
+  width: 14.28%;
+  height: 2.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--primary-clr);
+  margin-bottom: .5vw;
+  z-index: 1000;
+}
+
+/* prev-date e(ou) next-date: dias do mês anterior e(ou) do proximo mês */
+.calendar .days .prev-date,
+.calendar .days .next-date {
+  color: #dadada;
+  cursor: default;
+}
+
+.calendar .days .day:not(.prev-date, .next-date):hover {
+  background-color: #eee;
+  color: var(--primary-clr);
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  z-index: 10;
+}
+
+/* today: o dia atual */
+.calendar .days .today {
+  font-weight: 700;
+  position: relative;
+  z-index: 10;
+}
+
+.calendar .days .today::after {
+  content: "";
+  position: absolute;
+  background-color: var(--primary-clr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  top: auto;
+  left: auto;
+  z-index: -100;
+}
+
+.calendar .days .today::before {
+  content: "";
+  position: absolute;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 20%);
+  height: calc(100% - 20%);
+  clip-path: polygon(25% 6%, 75% 6%, 100% 50%, 75% 94%, 25% 94%, 0% 50%);
+  top: auto;
+  left: auto;
+  z-index: -1;
+}
+
+.calendar .days .today.active::before {
+  content: "";
+  background-color: var(--primary-clr);
+}
+
+.calendar .days .today.active {
+  background-color: var(--primary-clr);
+  z-index: 50;
+}
+
+/* days.event: marca o dia que tem o evento */
+.calendar .days .event {
+  position: relative;
+  z-index: 500;
+}
+
+.calendar .days .event::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: .4vw;
+  height: .4vw;
+  border-radius: 100%;
+  transform: translateX(-50%);
+  background-color: var(--primary-clr);
+  z-index: 1500;
+}
+
+.calendar .days .day:hover.event::after {
+  background-color: var(--primary-clr);
+}
+
+.calendar .days .active.event::after {
+  background-color: #fff;
+  bottom: 10%;
+}
+
+.goto {
+  display: none;
+}
+
+.calendar .goto-today {
+  width: 100%;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 1vw;
+  color: var(--primary-clr);
+  position: absolute;
+  top: 23vw;
+}
+
+
+
+
+.calendar .goto-today button {
+  border: .16vw solid var(--primary-clr);
+  border-radius: .4vw;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--primary-clr);
+  transition: 4s ease-in linear;
+  width: 4vw;
+  height: 1.5vw;
+  font-size: .7vw;
+}
+
+.calendar .goto-today button:hover {
+  color: #fff;
+  background-color: var(--primary-clr);
+  transition: 4s ease-in linear;
+}
+
+/* right:  parte de baixo do calendario, onde aparecerá os lembretes */
+.container .right {
+  position: absolute;
+  width: 100%;
+  height: 17vw !important;
+  bottom: 0 !important;
+}
+
+.today-date {
+  width: 100%;
+  height: 3vw;
+  padding: 0 0vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  text-transform: capitalize;
+}
+
+.today-date .event-day {
+  color: #1C5845;
+  font-size: 1.5vw;
+  font-weight: 500;
+  margin-right: 1vw;
+}
+
+.today-date .event-date {
+  font-size: .6vw;
+  font-weight: 400;
+  color: #878895;
+  height: 2vw;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: .3vw;
+  justify-content: center;
+}
+
+/* events:  o conteiner onde ficará quardada os dados do lembrete, onde aparecerá os lembretes */
+.events {
+  width: 100%;
+  height: 14vw;
+  max-height: 14vw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 0 1vw;
+}
+
+.events::-webkit-scrollbar {
+  display: none;
+}
+
+/* add-event:  o botão de adicionar os lembretes */
+.add-event {
+  position: absolute;
+  width: 2vw;
+  height: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1vw;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: .6vw;
+  color: var(--primary-clr);
+  border: 2px solid var(--primary-clr);
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+
+.add-event i {
+  pointer-events: none;
+  /* anotado */
+}
+
+/* events .event:  o conteiner onde ficará o lembrete, onde terá o titulo e os horários */
+.events .event {
+  position: relative;
+  width: 100%;
+  min-height: 4vw;
+  max-height: 4vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--primary-clr);
+  cursor: pointer;
+  border-radius: .6vw;
+  border: .3vw solid #174738;
+  margin-bottom: 1vw;
+  z-index: 11;
+}
+
+.events .event .cont-color {
+  position: absolute;
+  width: 15%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.events .event .color-select-event {
+  width: 50%;
+
+}
+
+.events .event .color-select-event {
+  width: 60%;
+  height: 80%;
+  background-color: darkcyan;
+  border-top: .3vw solid #174738;
+  border-right: .3vw solid #174738;
+  border-bottom: .3vw solid #174738;
+  border-top-right-radius: .6vw;
+  border-bottom-right-radius: .6vw;
+}
+
+.events .event .cont-principal {
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  left: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.events .event .event-title {
+  margin-left: 1vw;
+  width: 100%;
+  margin-top: .3vw;
+  overflow: hidden;
+  position: relative;
+}
+
+.events .event .event-title h1 {
+  color: #eee;
+  font-size: 1.4vw;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  padding: 0 5px;
+}
+
+.events .event .event-time {
+  margin-left: 1vw;
+  width: 100%;
+  margin-bottom: .3vw;
+}
+
+.events .event .event-time p {
+  color: #eee;
+  font-size: .6vw;
+  font-weight: 700;
+  letter-spacing: .15vw;
+}
+
+.events .event .left-confg {
+  position: absolute;
+  width: 25%;
+  height: 100%;
+  left: 75%;
+}
+
+.events .event .cont-config {
+  border-radius: 0px .2vw 0px 100%;
+  background-color: #174738;
+  height: 3vw;
+  width: 3vw;
+  float: right;
+  display: flex;
+  align-items: start;
+  justify-content: flex-end;
+}
+
+.events .event .cont-config i {
+  width: auto;
+  color: #eee;
+  margin: .3vw .5vw;
+  font-size: 1.5vw;
+  font-family: "Poppins", sans-serif;
+}
+
+
+
+/* no-event:  quando não houver eventos */
+.events .no-event {
+  width: 90%;
+  height: 16vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -3vw;
+}
+
+/* no-event img:  img que vc aparecer quando não tiver evento */
+.events .no-event img {
+  width: 70%;
+  height: auto;
+}
+
+/* modal onde tem os dados do event */
+
+.event-modal-content {
+  width: 100vw;
+  background-color: rgba(51, 51, 51, 0.5);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000000;
+}
+
+.modal-cont {
+  width: 30%;
+  height: 60%;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.cont-modal-conteiner {
+  width: 100%;
+  height: 90%;
+  background-color: var(--primary-clr);
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  background: rgb(43, 120, 95);
+  background: linear-gradient(130deg, #236C56 0%, #1C5845 100%);
+}
+
+.content-color {
+  width: 100%;
+  height: 10%;
+  background-color: #fff;
+  top: 0;
+  border-bottom: 5px solid #E4D5C7;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.cont-conteiner-pess-time-desc {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.cont-users {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.contt-user p {
+  background-color: #E4D5C7;
+  margin-right: 25px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: 4px solid #95877A;
+}
+
+.contt-user {
+  height: 75px;
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  max-width: 100%;
+  align-items: center;
+}
+
+
+.contt-user::-webkit-scrollbar {
+  display: none;
+}
+
+.cont-users strong {
+  font-size: 1.5rem;
+  padding-left: 20px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cont-title {
+  width: 100%;
+  height: 75px;
+  padding: 0px 30px;
+  padding-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 50px;
+}
+
+.cont-title h2 {
+  font-size: 1.8rem;
+  letter-spacing: 5px;
+  line-height: 3rem;
+  word-break: break-all;
+  color: #E4D5C7;
+}
+
+.cont-descrição {
+  width: 93%;
+  min-height: 50%;
+  max-height: 50%;
+  border-radius: 10px;
+  background-color: #E4D5C7;
+  border: 3px solid #95877A;
+  padding: 15px 20px;
+  overflow: hidden;
+
+}
+
+.cont-descrição p {
+  font-size: 1.2rem;
+  letter-spacing: .15rem;
+  word-break: break-all;
+  font-weight: 600;
+  color: #6b6258;
+  line-height: 2em;
+  font-family: "Poppins", sans-serif;
+}
+
+.cont-time {
+  width: 93%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 10px;
+}
+
+.cont-time p {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: .1rem;
+  color: #E4D5C7;
+}
+
+.close-btm {
+  left: 0;
+  position: relative;
+  margin-left: -25px;
+  width: 60px;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* wrapper-user:  usuarios selecionados para colocar no lembrete */
+.wrapper-user {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 5px 5px;
+  border-radius: 15px;
+  margin-right: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  height: 50px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* user-icon:  local para separar a img do usuário */
+.user-icon {
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ccc;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.remove-user {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #333;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+/* confirm-delete:  modal para comfirmação de deleta */
+.confirm-delete {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000000000000000000000000000;
+}
+
+/* confirm-delete-box:  conteiner do modal de deleta */
+.confirm-delete-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 300px;
+}
+
+.confirm-delete-box p {
+  margin-bottom: 20px;
+}
+
+.confirm-delete-box button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-delete-box button.delete-yes {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+.confirm-delete-box button.delete-yes:hover {
+  background-color: #c0392b;
+}
+
+.confirm-delete-box button.delete-no {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.confirm-delete-box button.delete-no:hover {
+  background-color: #2980b9;
+}
+
+
+
+.cont-dados {
+  height: 90%;
+  width: 95%;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+.cont-dados {
+  height: 90%;
+  width: 95%;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.cont-dados-resp {
+  height: 90%;
+  width: 95%;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+.cont-dados-resp {
+  height: 90%;
+  width: 95%;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cont-0 {
+  width: auto;
+  height: 2vw;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 0 !important;
+  padding: 10px;
+}
+
+.cont-0 h3 {
+  width: auto;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.cont-0 .cont-id {
+  width: auto;
+}
+
+.cont-0 .cont-id p {
+  font-weight: 800;
+  font-size: 18px;
+  margin-left: 3px;
+}
+
+.oi {
+  margin-bottom: 10px;
+  width: auto;
+  padding: 10px 0;
+  border-bottom: 3px solid var(--primary-clr);
+}
+
+.cont-10 {
+  border: none;
+  flex-direction: row;
+  position: relative;
+}
+
+.oi h3 {
+  margin-bottom: 5px;
+  color: var(--primary-clr);
+}
+
+.oi~p {
+  color: #333;
+}
+
+.card-cont {
+  width: 50%;
+  height: 100%;
+  position: relative;
+  left: 0vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-all {
+  width: 80%;
+  height: 16vw;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 1.5vw;
+}
+
+.card {
+  width: 100%;
+  height: 12vw;
+  background-color: var(--primary-clr);
+  border-radius: .5vw;
+  z-index: 150150;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-logo-card {
+  width: 4vw;
+  margin: 1vw;
+  z-index: 12000000;
+}
+
+.poligonos-img-card1 {
+  width: 4vw;
+  position: absolute;
+  top: -1vw;
+  left: -1vw;
+  z-index: -1;
+}
+
+.poligonos-img-card2 {
+  width: 5vw;
+  position: absolute;
+  left: 5vw;
+  top: 2vw;
+  z-index: 2;
+}
+
+.poligonos-img-card3 {
+  width: 6vw;
+  position: absolute;
+  bottom: -2vw;
+  right: -2vw;
+  z-index: 2;
+}
+
+.poligonos-img-card4 {
+  width: 4vw;
+  position: absolute;
+  bottom: 1vw;
+  left: -2vw;
+  z-index: 2;
+}
+
+.poligonos-img-card5 {
+  width: 5vw;
+  position: absolute;
+  bottom: 6vw;
+  right: 3vw;
+  z-index: 2;
+}
+
+.poligonos-img-card6 {
+  width: 6vw;
+  position: absolute;
+  bottom: -2vw;
+  right: 8vw;
+  z-index: 2;
+}
+
+.card h1 {
+  font-size: 1.2vw;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.801);
+  position: absolute;
+  bottom: 1vw;
+  right: 1vw;
+  z-index: 150;
+}
+
+.dados_card-carterinha {
+  width: 50%;
+  height: 70%;
+  position: absolute;
+  right: 0vw;
+  display: flex;
+  justify-content: space-between;
+  top: 2vw;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.cont-itens-cart {
+  width: 100%;
+  height: 5vw;
+  border-radius: .4vw;
+}
+
+.cont-itens-cart-tx {
+  width: 90%;
+  height: 2.5vw;
+  background-color: var(--primary-clr);
+  border-radius: .4vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: start;
+}
+
+.cont-itens-cart-tx p {
+  color: white;
+  font-size: 1vw;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-left: 1vw;
+}
+
+.cont-card-user-add {
+  background-color: var(--primary-clr);
+  border-radius: .4vw;
+  height: 30vw;
+  position: relative;
+  overflow-y: auto;
+  /* Adiciona scroll vertical */
+}
+
+#add-user-name,
+#add-user-email,
+#telefone,
+#add-user-dt_nasc,
+#cur-ser-ens,
+#instituicao,
+#add-user-genero,
+#add-user-cpf,
+#add-user-rg,
+#add-user-pcd,
+#add-user-icon,
+#op_card,
+#NomeResponsavel,
+#EmailResponsavel,
+#TelefoneResponsavel,
+#RGResponsavel,
+#CPFResponsavel {
+  height: 2.5vw;
+  width: 100%;
+  background: white;
+  border: none;
+  color: #4e4943;
+  font-size: 1vw;
+  letter-spacing: .1vw;
+  font-weight: 600;
+  padding: 0 1vw;
+  border: .3vw solid #174738;
+  border-radius: .4vw;
+  margin-bottom: 1vw;
+}
+
+#add-user-dt_nasc {
+  color: #ccc;
+  font-size: 1vw;
+}
+
+/* Removendo as setas de incremento/decremento para compatibilidade com alguns navegadores */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+select {
+  width: 100% !important;
+  height: 50% !important;
+}
+
+#add-user-genero,
+#add-user-pcd,
+#add-user-icon,
+#op_card {
+  color: #4e4943;
+  height: 2.5vw !important;
+  padding: 0 1vw !important;
+}
+
+#labelforRsp {
+  color: white;
+  letter-spacing: .1vw;
+  font-size: 1.5vw;
+  font-weight: 700;
+  margin: 1vw 0;
+}
+
+#labelforaluhj {
+  color: white;
+  letter-spacing: .1vw;
+  font-size: 1.5vw;
+  font-weight: 700;
+  margin: 1vw 0;
+}
+
+
+.btm-1.selected {
+  background-color: #1C5845;
+  /* Cor selecionada */
+  color: white;
+  /* Cor do texto */
+  border: 5px solid #174738;
+}
+
+.btm-2.selected {
+  background-color: #1C5845;
+  /* Cor selecionada */
+  color: white;
+  /* Cor do texto */
+  border: 5px solid #174738;
+}
+
+.selected-bg {
+  z-index: -22;
+}
+
+.ef_traz-btm.active {
+
+  border-radius: 20px;
+  background-color: #174738;
+  width: 100%;
+  height: 80px;
+  position: relative;
+  bottom: -10px;
+  z-index: -21;
+}
+
+
+
+
+/* Estilos para o modal de lista de usuários */
+.modal-gGrupo {
+  display: none;
+  /* Ocultar o modal por padrão */
+  position: absolute;
+  /* Posição fixa para cobrir a tela */
+  z-index: 9999;
+  /* Z-index alto para garantir que fique acima de outros elementos */
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* Habilitar rolagem quando necessário */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Fundo escuro semi-transparente */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content-grupo {
+  background-color: #fefefe;
+  /* Cor de fundo do modal */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 40vw;
+  /* Largura máxima do modal */
+  height: 40vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.addmodal-close {
+  position: absolute;
+  top: .8vw;
+  right: 1.2vw;
+  color: #aaa;
+  font-size: 2.2vw;
+  font-weight: bold;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.addmodal-close:hover,
+.addmodal-close:focus {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+}
+
+
+.close-grupo {
+  position: absolute;
+  top: .8vw;
+  right: 1.2vw;
+  color: #aaa;
+  font-size: 2.2vw;
+  font-weight: bold;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-grupo:hover,
+.close-grupo:focus {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+}
+
+.modal-content-grupo h2 {
+  margin-top: .3vw;
+  margin-bottom: 20px;
+  color: #174738;
+  text-align: center;
+  font-size: 1.3vw;
+  letter-spacing: 2px;
+}
+
+#userList-grupo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: var(--primary-clr);
+  height: 25vw;
+  width: 100%;
+  position: relative;
+  padding: 1vw;
+  border-radius: .5vw;
+  color: #4e4943;
+}
+#userList-grupo div{
+  width: 100%;
+}
+/* Estilos para os itens de usuário */
+.mod-pess-user-unit{
+  margin-bottom: 1.2vw;
+  text-decoration: none;
+  list-style-type: none;
+  padding: .8vw;
+  background-color: #eeeeee;
+  height: 3vw;
+  font-size: 1.1vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: start;
+  border-radius: .5vw;
+  width: 100%;
+  outline: none;
+  border: .3vw solid #174738;
+  position: relative;
+  transition: .5s ease-in-out;
+}
+.mod-pess-user-unit::before{
+  content: "";
+  width: 10%;
+  right: 0;
+  height: 100%;
+  background-color: #b92929;
+  float: right;
+  position: absolute;
+  border-radius: .5vw;
+  border: .3vw solid #174738;
+  margin-right: -.3vw;
+  transition: .5s ease-in-out;
+}
+.mod-pess-user-unit.selected::before{
+  content: "";
+  width: 10%;
+  right: 0;
+  height: 100%;
+  background-color: #29b929;
+  float: right;
+  position: absolute;
+  border-radius: .5vw;
+  border: .3vw solid #174738;
+  margin-right: -.3vw;
+  transition: .5s ease-in-out;
+}
+.user-button-modal {
+  margin-bottom: 1.2vw;
+  text-decoration: none;
+  list-style-type: none;
+  padding: .8vw;
+  background-color: #eeeeee;
+  height: 3vw;
+  font-size: 1.1vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: start;
+  border-radius: .5vw;
+  width: 100%;
+  outline: none;
+  border: .3vw solid #174738;
+  position: relative;
+  transition: .5s ease-in-out;
+}
+
+.user-button-modal::before{
+  content: "";
+  width: 10%;
+  right: 0;
+  height: 100%;
+  background-color: #b92929;
+  float: right;
+  position: absolute;
+  border-radius: .5vw;
+  border: .3vw solid #174738;
+  margin-right: -.3vw;
+  transition: .5s ease-in-out;
+}
+.user-button-modal.selected::before{
+  content: "";
+  width: 10%;
+  right: 0;
+  height: 100%;
+  background-color: #29b929;
+  float: right;
+  position: absolute;
+  border-radius: .5vw;
+  border: .3vw solid #174738;
+  margin-right: -.3vw;
+  transition: .5s ease-in-out;
+}
+
+/* Remover a borda inferior do último item */
+.user-button-modal:last-child {
+  margin-bottom: 0px;
+}
+.user-icon-grup{
+  margin-right: 1.5vw;
+  font-size: 1w;
+}
+.user-name-grup{
+  font-size: 1.1vw;
+  font-weight: 800;
+  letter-spacing: .1vw;
+  text-transform: capitalize;
+}
+#group-name{
+  background-color: var(--primary-clr);
+  width: 100%;
+  height: 2.5vw;
+  border-radius: .3vw;
+  text-decoration: none;
+  outline: none;
+  padding: 1vw;
+  font-size: 1.3vw;
+  font-weight: 400;
+  letter-spacing: .1vw;
+  border: .3vw solid #174738;
+  color: #fff;
+  margin-top: 1.5vw;
+}
+#group-name::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+.submit{
+  width: 100%;
+  padding: 1vw;
+  font-size: 1.3vw;
+  font-weight: 400;
+  letter-spacing: .1vw;
+  border: .3vw solid #174738;
+  color: #fff;
+  background-color: var(--primary-clr);
+  height: 2vw;
+  border-radius: .3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 1.5vw;
+  cursor: pointer;
+}
+
+
+.groupBox{
+  width: 100%;
+  height: 3vw;
+  margin-bottom: 15px;
+  text-decoration: none;
+  list-style-type: none;
+  background-color: #eeeeee;
+  font-size: 1.6vw;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-left: 20px;
+  border-radius: 10px;
+  padding-right: 1.2vw;
+  letter-spacing: .2vw;
+}
+.groupName{
+text-transform: uppercase;
+height: 100%;
+width: auto;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+color: #174738;
+}
+.groupMembers{
+height: 100%;
+width: auto;
+display: flex;
+align-items: center;
+justify-content: flex-end;
+text-align: end;
+font-size: 1.2vw;
+font-weight: 400;
+width: 15vw;
+color: #174738;
+
+}
+
+.selected-user{
+  width: 13vw;
+  height: 3vw;
+  margin: 1vw;
+  background-color: #E4D5C7;
+  border: 3px solid #95877A;
+  border-radius: .8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
