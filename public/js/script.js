@@ -1,3 +1,21 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyBfh1YVJ64Hh8w8ePg5fy0JFNh9Hdx9eus",
+  authDomain: "ssebd-cb9e8.firebaseapp.com",
+  databaseURL: "https://ssebd-cb9e8-default-rtdb.firebaseio.com",
+  projectId: "ssebd-cb9e8",
+  storageBucket: "ssebd-cb9e8.appspot.com",
+  messagingSenderId: "569484499742",
+  appId: "1:569484499742:web:809038a4e03e282bbc070f",
+  measurementId: "G-W3RENCHERS"
+};
+
+// Inicialize o Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Inicialize o Firestore
+const db = firebase.firestore();
+
+
 
 const calendar = document.querySelector(".calendar"),
   date = document.querySelector(".date"),
@@ -1443,84 +1461,126 @@ addEventTo.addEventListener("input", (e) => {
     addEventTo.value = addEventTo.value.slice(0, 5);
   }
 });
-// Adiciona evento ao botão de envio de evento
-addEventSubmit.addEventListener("click", () => {
-  const eventTitle = addEventTitle.value;
-  const eventDescricion = addEventDescricion.value;
-  const eventTimeFrom = addEventFrom.value;
-  const eventTimeTo = addEventTo.value;
-  const SelectedColor = getColor();
-  const SelectedUsers = getSelectedUsers();
 
-  if (
-    eventTitle === "" ||
-    eventTimeFrom === "" ||
-    eventTimeTo === "" ||
-    eventDescricion === ""
-  ) {
-    alert("por favor preencha todos os campos");
-    return;
-  }
 
-  let eventAdded = false;
-  if (eventsArr.length > 0) {
+
+
+addEventSubmit.addEventListener("click", async () => {
+    console.log("Botão de evento adicionado clicado.");
+
+    const eventTitle = addEventTitle.value;
+    const eventDescricion = addEventDescricion.value;
+    const eventTimeFrom = addEventFrom.value;
+    const eventTimeTo = addEventTo.value;
+    const SelectedColor = getColor();
+    const SelectedUsers = getSelectedUsers();
+
+    console.log("Dados do formulário:", eventTitle, eventDescricion, eventTimeFrom, eventTimeTo);
+
+    // Validação dos campos do formulário
+    if (
+        eventTitle === "" ||
+        eventTimeFrom === "" ||
+        eventTimeTo === "" ||
+        eventDescricion === ""
+    ) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    // Criando uma string concatenada com dia, mês e ano
+    const eventDate = `${activeDay}-${month + 1}-${year}`;
+
+    // Objeto do novo evento a ser salvo no Firestore
+    const newEvent = {
+        title: eventTitle,
+        descrição: eventDescricion,
+        time: `${eventTimeFrom} - ${eventTimeTo}`,
+        color: SelectedColor,
+        users: SelectedUsers,
+        date: eventDate, // Salvando a data como uma string concatenada
+    };
+
+    let eventAdded = false;
     eventsArr.forEach((item) => {
-      if (
-        item.day === activeDay &&
-        item.month === month + 1 &&
-        item.year === year
-      ) {
-        item.events.push({
-          title: eventTitle,
-          descrição: eventDescricion,
-          time: `${eventTimeFrom} - ${eventTimeTo}`,
-          color: SelectedColor,
-          users: SelectedUsers,
+        if (
+            item.date === eventDate
+        ) {
+            item.events.push({
+                title: eventTitle,
+                descrição: eventDescricion,
+                time: `${eventTimeFrom} - ${eventTimeTo}`,
+                color: SelectedColor,
+                users: SelectedUsers,
+            });
+            eventAdded = true;
+        }
+    });
+
+    if (!eventAdded) {
+        const eventId = Date.now(); // Gera um ID único baseado no timestamp
+        eventsArr.push({
+            id: eventId,
+            date: eventDate,
+            events: [
+                {
+                    title: eventTitle,
+                    descrição: eventDescricion,
+                    time: `${eventTimeFrom} - ${eventTimeTo}`,
+                    color: SelectedColor,
+                    users: SelectedUsers,
+                },
+            ],
+            color: SelectedColor,
         });
-        eventAdded = true;
-      }
+    }
+
+    // Salvando eventos, cor selecionada e usuários selecionados no localStorage
+    saveEvents(eventsArr);
+    saveColor(SelectedColor);
+    saveSelectedUsers(SelectedUsers);
+
+    // Limpando campos do formulário e atualizando a interface
+    addEventDescricion.value = "";
+    addEventTitle.value = "";
+    addEventFrom.value = "";
+    addEventTo.value = "";
+    addEventWrapper.classList.remove("active");
+    updateEvents(activeDay);
+
+    // Exibindo modal de evento adicionado
+    showEventModal({
+        title: eventTitle,
+        descrição: eventDescricion,
+        time: `${eventTimeFrom} - ${eventTimeTo}`,
+        color: SelectedColor,
+        users: SelectedUsers,
+        date: eventDate, // Exibindo a data como uma string concatenada
     });
-  }
 
-  if (!eventAdded) {
-    const eventId = Date.now(); // Gera um ID único baseado no timestamp
-    eventsArr.push({
-      id: eventId, // Adiciona o ID único aqui
-      day: activeDay,
-      month: month + 1,
-      year: year,
-      events: [
-        {
-          title: eventTitle,
-          descrição: eventDescricion,
-          time: `${eventTimeFrom} - ${eventTimeTo}`,
-          color: SelectedColor,
-          users: SelectedUsers,
-        },
-      ],
-      color: SelectedColor,
-    });
-  }
+    try {
+        // Adiciona o documento à coleção 'events' no Firestore
+        const docRef = await db.collection("events").add(newEvent);
+        console.log("Evento adicionado com ID:", docRef.id);
 
-  saveEvents();
-  saveColor(SelectedColor);
-  saveSelectedUsers(SelectedUsers);
+        // Limpar os campos do formulário e atualizar a interface
+        addEventDescricion.value = "";
+        addEventTitle.value = "";
+        addEventFrom.value = "";
+        addEventTo.value = "";
+        addEventWrapper.classList.remove("active");
+        updateEvents(activeDay);
 
-  addEventWrapper.classList.remove("active");
-  addEventDescricion.value = "";
-  addEventTitle.value = "";
-  addEventFrom.value = "";
-  addEventTo.value = "";
-  updateEvents(activeDay);
+        // Exibir o modal de evento adicionado
+        showEventModal(newEvent);
 
-  showEventModal({
-    title: eventTitle,
-    descrição: eventDescricion,
-    time: `${eventTimeFrom} - ${eventTimeTo}`,
-    color: SelectedColor,
-    users: SelectedUsers,
-  });
+    } catch (error) {
+        console.error("Erro ao adicionar evento:", error);
+        alert("Ocorreu um erro ao adicionar o evento. Por favor, tente novamente.");
+    }
 });
+
+
 
 
 // Adiciona evento ao container de eventos para deletar evento
@@ -1722,3 +1782,7 @@ function toggleSelection(buttonClicked) {
   }
 }
 
+
+
+
+// firebase
