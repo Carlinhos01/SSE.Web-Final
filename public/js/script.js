@@ -1,12 +1,12 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyBfh1YVJ64Hh8w8ePg5fy0JFNh9Hdx9eus",
-  authDomain: "ssebd-cb9e8.firebaseapp.com",
-  databaseURL: "https://ssebd-cb9e8-default-rtdb.firebaseio.com",
-  projectId: "ssebd-cb9e8",
-  storageBucket: "ssebd-cb9e8.appspot.com",
-  messagingSenderId: "569484499742",
-  appId: "1:569484499742:web:809038a4e03e282bbc070f",
-  measurementId: "G-W3RENCHERS"
+  apiKey: "AIzaSyB1kDIeiOQevdMZph6VPbXbyy-52C8SGy0",
+  authDomain: "sseapp-715cf.firebaseapp.com",
+  databaseURL: "https://sseapp-715cf-default-rtdb.firebaseio.com",
+  projectId: "sseapp-715cf",
+  storageBucket: "sseapp-715cf.appspot.com",
+  messagingSenderId: "384311598256",
+  appId: "1:384311598256:web:36771f75c6981d9505af75",
+  measurementId: "G-PSSXM9HTNY"
 };
 
 // Inicialize o Firebase
@@ -57,7 +57,9 @@ const calendar = document.querySelector(".calendar"),
   cpfResponsavelInput = document.getElementById('CPFResponsavel');
 
 // Lista de usuários selecionados
-const selectedUsers = [];
+const selectedUsers = [];  
+
+// lembrete
 
 // Array com os nomes dos meses
 const months = [
@@ -187,62 +189,195 @@ fillAddUserList();
 
 let selectedUser = null; // Usuário selecionado
 
-// Evento para adicionar usuário quando o formulário é enviado
-document.getElementById("add-user-form").addEventListener("submit", function(event) {
+// Variável global para armazenar dados do usuário
+
+
+
+
+
+document.getElementById('add-user-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  // Obter os valores dos campos do formulário...
-  const userIcon = document.getElementById("add-user-icon").value;
-  const nomeAluno = document.getElementById('add-user-name').value;
+  // Captura dos dados do formulário
+  const nome = document.getElementById('add-user-name').value;
   const email = document.getElementById('add-user-email').value;
   const telefone = document.getElementById('telefone').value;
-  const dtNasc = document.getElementById('add-user-dt_nasc').value;
+  const dt_nasc = document.getElementById('add-user-dt_nasc').value;
   const genero = document.getElementById('add-user-genero').value;
-  const curso = document.getElementById('cur-ser-ens').value;
+  const curserens = document.getElementById('cur-ser-ens').value;
   const instituicao = document.getElementById('instituicao').value;
   const cpf = document.getElementById('add-user-cpf').value;
   const rg = document.getElementById('add-user-rg').value;
   const pcd = document.getElementById('add-user-pcd').value;
+  const icone = document.getElementById('add-user-icon').value;
   const nomeResponsavel = document.getElementById('NomeResponsavel').value;
   const emailResponsavel = document.getElementById('EmailResponsavel').value;
   const telefoneResponsavel = document.getElementById('TelefoneResponsavel').value;
   const rgResponsavel = document.getElementById('RGResponsavel').value;
   const cpfResponsavel = document.getElementById('CPFResponsavel').value;
 
-  // Criar o novo usuário
-  const usuario = {
-    id: allUsers.length + 1,
-    name: nomeAluno,
-    email: email,
-    telefone: telefone,
-    icon: userIcon,
-    data_de_Nascimento: dtNasc,
-    genero: genero,
-    curso: curso,
-    instituicao: instituicao,
-    cpf: cpf,
-    rg: rg,
-    pcd: pcd,
-    responsavel: {
-      nome: nomeResponsavel,
-      email: emailResponsavel,
-      telefone: telefoneResponsavel,
-      rg: rgResponsavel,
-      cpf: cpfResponsavel
-    }
-  };
+  try {
+      // Verificar se o aluno já existe no Firestore
+      const alunoQuerySnapshot = await db.collection('dadosAluno').where('cpf', '==', cpf).get();
+      let alunoId;
+      if (!alunoQuerySnapshot.empty) {
+          const alunoDoc = alunoQuerySnapshot.docs[0];
+          alunoId = alunoDoc.id;
+          // Atualizar dados do aluno existente
+          await db.collection('dadosAluno').doc(alunoId).update({
+              nome: nome,
+              email: email,
+              telefone: telefone,
+              dt_nasc: dt_nasc,
+              genero: genero,
+              curserens: curserens,
+              instituicao: instituicao,
+              rg: rg,
+              pcd: pcd,
+              icone: icone,
+          });
+          alert('Dados do aluno atualizados com sucesso!');
+      } else {
+          alunoId = await getNextId('dadosAluno');
+          await db.collection('dadosAluno').doc(alunoId.toString()).set({
+              id: alunoId,
+              nome: nome,
+              email: email,
+              telefone: telefone,
+              dt_nasc: dt_nasc,
+              genero: genero,
+              curserens: curserens,
+              instituicao: instituicao,
+              cpf: cpf,
+              rg: rg,
+              pcd: pcd,
+              icone: icone,
+          });
+          alert('Novo aluno adicionado com sucesso!');
+      }
 
-  // Adicionar o novo usuário à lista de usuários
-  allUsers.push(usuario);
-  console.log("Novo usuário cadastrado:", usuario);
+      // Verificar se o responsável já existe no Firestore
+      const responsavelQuerySnapshot = await db.collection('Responsaveis').where('cpfResponsavel', '==', cpfResponsavel).get();
+      let responsavelId;
+      if (!responsavelQuerySnapshot.empty) {
+          const responsavelDoc = responsavelQuerySnapshot.docs[0];
+          responsavelId = responsavelDoc.id;
+          // Atualizar dados do responsável existente
+          await db.collection('Responsaveis').doc(responsavelId).update({
+              nomeResponsavel: nomeResponsavel,
+              emailResponsavel: emailResponsavel,
+              telefoneResponsavel: telefoneResponsavel,
+              rgResponsavel: rgResponsavel,
+          });
+          alert('Dados do responsável atualizados com sucesso!');
+      } else {
+          responsavelId = await getNextId('Responsaveis');
+          await db.collection('Responsaveis').doc(responsavelId.toString()).set({
+              id: responsavelId,
+              nomeResponsavel: nomeResponsavel,
+              emailResponsavel: emailResponsavel,
+              telefoneResponsavel: telefoneResponsavel,
+              rgResponsavel: rgResponsavel,
+              cpfResponsavel: cpfResponsavel,
+          });
+          alert('Novo responsável adicionado com sucesso!');
+      }
 
-  // Fechar o modal...
-  closeAddModal();
+      // Obter dados completos do usuário
+      usuario = await getUserData(alunoId, responsavelId);
+      if (usuario) {
+          console.log('Dados do usuário:', usuario);
 
-  // Salvar os usuários...
-  saveUsers();
-  fillAddUserList();
+          // Aqui você pode chamar uma função para exibir os dados do usuário
+          exibirDadosUsuario(usuario);
+      } else {
+          console.error('Dados do usuário não encontrados ou não carregados corretamente.');
+          alert('Dados do usuário não encontrados ou não carregados corretamente. Tente novamente.');
+      }
+  } finally{}
 });
+
+// Exemplo de função para exibir os dados do usuário
+function exibirDadosUsuario(usuario) {
+  // Aqui você pode implementar a lógica para exibir os dados do usuário na interface
+  console.log('Exibindo dados do usuário:', usuario);
+}
+
+
+
+
+// Função assíncrona para obter dados do usuário
+async function obterDadosUsuario() {
+  try {
+      const alunoSnapshot = await db.collection('dadosAluno').doc('ID_DO_ALUNO').get();
+      const responsavelSnapshot = await db.collection('Responsaveis').doc('ID_DO_RESPONSAVEL').get();
+
+      if (alunoSnapshot.exists && responsavelSnapshot.exists) {
+          const alunoData = alunoSnapshot.data();
+          const responsavelData = responsavelSnapshot.data();
+
+          // Criar o objeto usuário combinando dados do aluno e do responsável
+          const usuario = {
+              aluno: {
+                  nome: alunoData.nome,
+                  email: alunoData.email,
+                  telefone: alunoData.telefone,
+                  dt_nasc: alunoData.dt_nasc,
+                  genero: alunoData.genero,
+                  curserens: alunoData.curserens,
+                  instituicao: alunoData.instituicao,
+                  cpf: alunoData.cpf,
+                  rg: alunoData.rg,
+                  pcd: alunoData.pcd,
+                  icone: alunoData.icone
+              },
+              responsavel: {
+                  nome: responsavelData.nomeResponsavel,
+                  email: responsavelData.emailResponsavel,
+                  telefone: responsavelData.telefoneResponsavel,
+                  rg: responsavelData.rgResponsavel,
+                  cpf: responsavelData.cpfResponsavel
+              }
+          };
+
+          console.log('Dados completos do usuário:', usuario);
+          return usuario; // Retorna o objeto usuário com os dados combinados
+      } else {
+          console.log('Dados do aluno ou do responsável não encontrados.');
+          return null;
+      }
+  } catch (error) {
+      console.error('Erro ao obter dados do usuário:', error);
+      return null;
+  }
+}
+
+// Uso da função para obter os dados do usuário
+obterDadosUsuario().then(usuario => {
+  if (usuario) {
+      // Aqui você pode utilizar os dados do usuário conforme necessário
+      console.log('Dados do usuário:', usuario);
+
+      // Exemplo de como salvar no localStorage
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+  } else {
+      console.log('Não foi possível obter os dados do usuário.');
+  }
+});
+
+const usuarios = obterDadosUsuario().values
+
+
+console.log('tomara que de certo:', usuarios);
+
+
+
+
+
+
+
+
+
 
 // Função para exibir os dados apenas do usuário selecionado
 function exibirDadosUsuarioSelecionado() {
@@ -1560,7 +1695,7 @@ addEventSubmit.addEventListener("click", async () => {
 
     try {
         // Adiciona o documento à coleção 'events' no Firestore
-        const docRef = await db.collection("events").add(newEvent);
+        const docRef = await db.collection("LembretePessoais").add(newEvent);
         console.log("Evento adicionado com ID:", docRef.id);
 
         // Limpar os campos do formulário e atualizar a interface

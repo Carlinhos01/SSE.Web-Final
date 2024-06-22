@@ -1,13 +1,13 @@
-const firebaseConfig = { 
-  apiKey: "AIzaSyBfh1YVJ64Hh8w8ePg5fy0JFNh9Hdx9eus", 
-  authDomain: "ssebd-cb9e8.firebaseapp.com", 
-  databaseURL: "https://ssebd-cb9e8-default-rtdb.firebaseio.com", 
-  projectId: "ssebd-cb9e8", 
-  storageBucket: "ssebd-cb9e8.appspot.com", 
-  messagingSenderId: "569484499742", 
-  appId: "1:569484499742:web:809038a4e03e282bbc070f", 
-  measurementId: "G-W3RENCHERS" 
-}; 
+const firebaseConfig = {
+  apiKey: "AIzaSyB1kDIeiOQevdMZph6VPbXbyy-52C8SGy0",
+  authDomain: "sseapp-715cf.firebaseapp.com",
+  databaseURL: "https://sseapp-715cf-default-rtdb.firebaseio.com",
+  projectId: "sseapp-715cf",
+  storageBucket: "sseapp-715cf.appspot.com",
+  messagingSenderId: "384311598256",
+  appId: "1:384311598256:web:36771f75c6981d9505af75",
+  measurementId: "G-PSSXM9HTNY"
+};
 
 
 // Inicialização do Firebase 
