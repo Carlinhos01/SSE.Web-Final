@@ -1,7 +1,8 @@
+
 const firebaseConfig = {
   apiKey: "AIzaSyB1kDIeiOQevdMZph6VPbXbyy-52C8SGy0",
   authDomain: "sseapp-715cf.firebaseapp.com",
-  databaseURL: "https://sseapp-715cf-default-rtdb.firebaseio.com",
+  databaseURL: "https://sseapp-715cf-default-rtdb.firebaseio.com/",
   projectId: "sseapp-715cf",
   storageBucket: "sseapp-715cf.appspot.com",
   messagingSenderId: "384311598256",
@@ -9,12 +10,41 @@ const firebaseConfig = {
   measurementId: "G-PSSXM9HTNY"
 };
 
-// Inicialize o Firebase
+
+
 firebase.initializeApp(firebaseConfig);
 
-// Inicialize o Firestore
+
 const db = firebase.firestore();
 
+// Exemplo de escrita no Realtime Database
+const writeDataToRealtimeDB = async () => {
+  try {
+    const newDataRef = realtimeDb.ref('testData');
+    await newDataRef.set({
+      message: 'Hello, Realtime Database!'
+    });
+    console.log('Dados escritos com sucesso no Realtime Database.');
+  } catch (error) {
+    console.error('Erro ao escrever dados no Realtime Database:', error);
+  }
+};
+
+writeDataToRealtimeDB(); // Chamada de exemplo para escrever dados
+
+// Exemplo de leitura no Realtime Database
+const readDataFromRealtimeDB = async () => {
+  try {
+    const dataRef = realtimeDb.ref('testData');
+    const snapshot = await dataRef.once('value');
+    const data = snapshot.val();
+    console.log('Dados lidos do Realtime Database:', data);
+  } catch (error) {
+    console.error('Erro ao ler dados do Realtime Database:', error);
+  }
+};
+
+readDataFromRealtimeDB(); // Chamada de exemplo para ler dados
 // Função para exibir os dados dos alunos na interface
 function exibirDadosAlunos() {
   // Aqui você implementaria a lógica para exibir os dados dos alunos, por exemplo:
@@ -178,49 +208,7 @@ window.addEventListener("DOMContentLoaded", loadUsers);
 
 // Função para preencher a lista de usuários no add-user
 // Função para preencher a lista de usuários no add-user
-function fillAddUserList(users = allUsers) {
-  const addUserList = document.getElementById("add-user");
 
-  // Limpa a lista antes de adicionar novos usuários
-  addUserList.innerHTML = "";
-
-  // Cria uma lista não ordenada (ul) para os usuários
-  const userList = document.createElement("ul");
-
-  // Adiciona cada usuário como um item de lista (li)
-  users.forEach((user) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = `${user.icon} ${user.name}`;
-    listItem.classList.add("user-item");
-    listItem.addEventListener("click", () => {
-      // Aqui vamos chamar a função toggleSelectUser e passar o usuário e o elemento clicado
-      toggleSelectUser(user, listItem);
-      // Ao clicar em um usuário, preencha a div com a classe 'desc-user-inform' com o ícone e o nome do usuário clicado
-      const descUserInform = document.querySelector(".desc-user-inform");
-      descUserInform.innerHTML = `
-          <div class="cont-user-icon">
-            <div class="cont-user-icon-dentro">
-              <i class="user-icon-modal">${user.icon}</i>
-            </div>
-            <div class="cont-user-icon-traz">
-            </div>
-          </div>
-          <div class="cont-user-name">
-            <span class="user-name">${user.name}</span>
-          </div>
-          <div class="cont-close-modal">
-            <span class="close-modal" onclick="closeUserModal('myModal')">&times;</span>
-          </div>
-          
-          
-        `;
-    });
-    userList.appendChild(listItem); // Adiciona o item de lista à lista de usuários
-  });
-
-  // Adiciona a lista de usuários ao elemento add-user
-  addUserList.appendChild(userList);
-}
 
 // Preenche a lista de usuários ao carregar a página
 fillAddUserList();
@@ -237,8 +225,27 @@ let selectedUser = null; // Usuário selecionado
 
 
 
+// Função para salvar dados do aluno no Firestore e Realtime Database
+// Função para salvar dados do aluno no Firestore e Realtime Database
+async function saveUserDataToBothDatabases(userData) {
+  try {
+    // Salvar no Firestore
+    const alunoRef = await db.collection('dadosAluno').add(userData);
+    const alunoId = alunoRef.id;
 
-// Adicionar um ouvinte para o evento submit do formulário
+    // Salvar no Realtime Database
+    const realtimeRef = realtimeDb.ref('dadosAluno/' + alunoId);
+    await realtimeRef.set(userData);
+
+    // Retornar o ID do aluno para referência
+    return alunoId;
+  } catch (error) {
+    console.error('Erro ao salvar dados do aluno:', error);
+    throw new Error('Não foi possível salvar os dados do aluno em ambos os bancos de dados.');
+  }
+}
+
+// Uso da função para salvar dados do usuário
 document.getElementById('add-user-form').addEventListener('submit', async (event) => {
   event.preventDefault(); // Evita o comportamento padrão de envio do formulário
 
@@ -263,76 +270,8 @@ document.getElementById('add-user-form').addEventListener('submit', async (event
     const rgResponsavel = document.getElementById('RGResponsavel').value;
     const cpfResponsavel = document.getElementById('CPFResponsavel').value;
 
-    // Verificar se o aluno já existe no Firestore
-    const alunoQuerySnapshot = await db.collection('dadosAluno').where('cpf', '==', cpf).get();
-    let alunoId;
-    if (!alunoQuerySnapshot.empty) {
-      const alunoDoc = alunoQuerySnapshot.docs[0];
-      alunoId = alunoDoc.id;
-      // Atualizar dados do aluno existente
-      await db.collection('dadosAluno').doc(alunoId).update({
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        dt_nasc: dt_nasc,
-        genero: genero,
-        curserens: curserens,
-        instituicao: instituicao,
-        rg: rg,
-        pcd: pcd,
-        icone: icone,
-      });
-    } else {
-      // Adicionar um novo aluno com ID gerado automaticamente pelo Firestore
-      const alunoRef = await db.collection('dadosAluno').add({
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        dt_nasc: dt_nasc,
-        genero: genero,
-        curserens: curserens,
-        instituicao: instituicao,
-        cpf: cpf,
-        rg: rg,
-        pcd: pcd,
-        icone: icone,
-      });
-      alunoId = alunoRef.id;
-    }
-
-    // Verificar se o responsável já existe no Firestore
-    const responsavelQuerySnapshot = await db.collection('Responsaveis').where('cpfResponsavel', '==', cpfResponsavel).get();
-    let responsavelId;
-    if (!responsavelQuerySnapshot.empty) {
-      const responsavelDoc = responsavelQuerySnapshot.docs[0];
-      responsavelId = responsavelDoc.id;
-      // Atualizar dados do responsável existente
-      await db.collection('Responsaveis').doc(responsavelId).update({
-        nomeResponsavel: nomeResponsavel,
-        emailResponsavel: emailResponsavel,
-        telefoneResponsavel: telefoneResponsavel,
-        rgResponsavel: rgResponsavel,
-      });
-    } else {
-      // Adicionar um novo responsável com ID gerado automaticamente pelo Firestore
-      const responsavelRef = await db.collection('Responsaveis').add({
-        nomeResponsavel: nomeResponsavel,
-        emailResponsavel: emailResponsavel,
-        telefoneResponsavel: telefoneResponsavel,
-        rgResponsavel: rgResponsavel,
-        cpfResponsavel: cpfResponsavel,
-      });
-      responsavelId = responsavelRef.id;
-    }
-
-    // Armazenar IDs no localStorage
-    localStorage.setItem('alunoId', alunoId);
-    localStorage.setItem('responsavelId', responsavelId);
-
-    // Após salvar os dados, você pode obter o usuário completo, se necessário
-    const usuario = {
-      alunoId: alunoId,
-      responsavelId: responsavelId,
+    // Montar objeto com dados do usuário
+    const userData = {
       nome: nome,
       email: email,
       telefone: telefone,
@@ -348,22 +287,29 @@ document.getElementById('add-user-form').addEventListener('submit', async (event
       emailResponsavel: emailResponsavel,
       telefoneResponsavel: telefoneResponsavel,
       rgResponsavel: rgResponsavel,
-      cpfResponsavel: cpfResponsavel,
+      cpfResponsavel: cpfResponsavel
     };
 
+    // Salvar dados do usuário nos dois bancos de dados
+    const alunoId = await saveUserDataToBothDatabases(userData);
 
-    // Aqui você pode chamar uma função para exibir os dados do usuário, se necessário
-    // exibirDadosUsuario(usuario);
+    // Salvar IDs no localStorage
+    localStorage.setItem('alunoId', alunoId);
+    localStorage.setItem('responsavelId', userData.responsavelId);
 
+    alert('Dados do aluno e responsável salvos com sucesso!');
   } catch (error) {
     console.error('Erro ao adicionar usuário:', error);
     alert('Ocorreu um erro ao processar o formulário. Tente novamente.');
   }
-
-  closeAddModal();
 });
 
-// Função para recuperar dados do usuário do localStorage
+
+
+
+
+
+
 function obterDadosUsuarioDoLocalStorage() {
   const alunoId = localStorage.getItem('alunoId');
   const responsavelId = localStorage.getItem('responsavelId');
@@ -377,7 +323,6 @@ function obterDadosUsuarioDoLocalStorage() {
   }
 }
 
-// Exemplo de como obter os dados do usuário do localStorage
 const dadosUsuario = obterDadosUsuarioDoLocalStorage();
 if (dadosUsuario) {
   console.log('IDs de aluno e responsável:', dadosUsuario);
@@ -385,6 +330,7 @@ if (dadosUsuario) {
 } else {
   console.log('IDs de aluno ou responsável não encontrados no localStorage.');
 }
+
 
 // Função para obter dados completos do usuário
 async function obterDadosUsuario() {
@@ -461,14 +407,15 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 
-
 // Função para exibir os dados apenas do usuário selecionado
 function exibirDadosUsuarioSelecionado() {
   // Seleciona o elemento onde os dados serão inseridos
   const contDados = document.querySelector('.cont-dados');
+  const contDadosResp = document.querySelector('.cont-dados-resp');
 
   // Remove os dados dos usuários que não estão selecionados
-  contDados.innerHTML = ''; // Limpa os dados exibidos
+  contDados.innerHTML = '';
+  contDadosResp.innerHTML = '';
 
   // Preenche os dados apenas do usuário selecionado
   if (selectedUser) {
@@ -479,7 +426,6 @@ function exibirDadosUsuarioSelecionado() {
   }
 }
 
-
 // Função para preencher os dados do usuário na tela
 function preencherDadosUsuario(usuario) {
   // Seleciona o elemento onde os dados serão inseridos
@@ -487,130 +433,193 @@ function preencherDadosUsuario(usuario) {
 
   // Define os dados do usuário em HTML
   const dadosHTML = `
-      <div class="cont-0">
-          <h3>ID:</h3>
-          <div class="cont-id">
-              <p>${usuario.id}</p>
-          </div>
-      </div>
-      <div class="cont-1 oi">
-          <h3>Nome:</h3>
-          <div class="cont-nome">
-              <p>${usuario.name}</p>
-          </div>
-      </div>
-      <div class="cont-2 oi">
-          <h3>Email:</h3>
-          <div class="cont-email">
-              <p>${usuario.email}</p>
-          </div>
-      </div>
-      <div class="cont-3 oi">
-          <h3>Data de Nascimento:</h3>
-          <div class="cont-dtNasc">
-              <p>${usuario.data_de_Nascimento}</p>
-          </div>
-      </div>
-      <div class="cont-4 oi">
-          <h3>Gênero:</h3>
-          <div class="cont-genero">
-              <p>${usuario.genero}</p>
-          </div>
-      </div>
-      <div class="cont-5 oi">
-          <h3>Telefone:</h3>
-          <div class="cont-telefone">
-              <p>${usuario.telefone}</p>
-          </div>
-      </div>
-      <div class="cont-6 oi">
-          <h3>Curso/Série/Ensino:</h3>
-          <div class="cont-Cse">
-              <p>${usuario.curso}</p>
-          </div>
-      </div>
-      <div class="cont-7 oi">
-          <h3>Instituição:</h3>
-          <div class="cont-instituição">
-              <p>${usuario.instituicao}</p>
-          </div>
-      </div>
-      <div class="cont-8 oi">
-          <h3>Pessoa com Deficiência:</h3>
-          <div class="cont-nome">
-              <p>${usuario.pcd}</p>
-          </div>
-      </div>
-      <div class="cont-9 oi">
-          <h3>RG:</h3>
-          <div class="cont-nome">
-              <p>${usuario.rg}</p>
-          </div>
-      </div>
-      <div class="cont-10 oi">
-          <h3>CPF:</h3>
-          <div class="cont-nome">
-              <p>${usuario.cpf}</p>
-          </div>
-      </div>
+    <div class="cont-0">
+        <h3>ID:</h3>
+        <div class="cont-id">
+            <p>${usuario.id}</p>
+        </div>
+    </div>
+    <div class="cont-1 oi">
+        <h3>Nome:</h3>
+        <div class="cont-nome">
+            <p>${usuario.nome}</p>
+        </div>
+    </div>
+    <div class="cont-2 oi">
+        <h3>Email:</h3>
+        <div class="cont-email">
+            <p>${usuario.email}</p>
+        </div>
+    </div>
+    <div class="cont-3 oi">
+        <h3>Data de Nascimento:</h3>
+        <div class="cont-dtNasc">
+            <p>${usuario.dt_nasc}</p>
+        </div>
+    </div>
+    <div class="cont-4 oi">
+        <h3>Gênero:</h3>
+        <div class="cont-genero">
+            <p>${usuario.genero}</p>
+        </div>
+    </div>
+    <div class="cont-5 oi">
+        <h3>Telefone:</h3>
+        <div class="cont-telefone">
+            <p>${usuario.telefone}</p>
+        </div>
+    </div>
+    <div class="cont-6 oi">
+        <h3>Curso/Série/Ensino:</h3>
+        <div class="cont-Cse">
+            <p>${usuario.curserens}</p>
+        </div>
+    </div>
+    <div class="cont-7 oi">
+        <h3>Instituição:</h3>
+        <div class="cont-instituição">
+            <p>${usuario.instituicao}</p>
+        </div>
+    </div>
+    <div class="cont-8 oi">
+        <h3>Pessoa com Deficiência:</h3>
+        <div class="cont-nome">
+            <p>${usuario.pcd}</p>
+        </div>
+    </div>
+    <div class="cont-9 oi">
+        <h3>RG:</h3>
+        <div class="cont-nome">
+            <p>${usuario.rg}</p>
+        </div>
+    </div>
+    <div class="cont-10 oi">
+        <h3>CPF:</h3>
+        <div class="cont-nome">
+            <p>${usuario.cpf}</p>
+        </div>
+    </div>
   `;
 
   // Adiciona os dados do usuário ao elemento
   contDados.innerHTML = dadosHTML;
-
-  saveUsers()
 }
 
+// Função para preencher os dados do responsável na tela
 function preencherDadosResponsavel(responsavel) {
   // Seleciona o elemento onde os dados do responsável serão inseridos
-  const contDadosResp = document.querySelector('.cont-dados-resp');
-
-  // Limpa o conteúdo anterior antes de adicionar os novos dados do responsável
-  contDadosResp.innerHTML = '';
-
+  const contDadosResp = document.getElementById('cont-dados-resp');
   // Define os dados do responsável em HTML
   const dadosResponsavelHTML = `
-      <div class="cont-12">  
-          <h3>ID:</h3>
-          <div class="cont-id">
-              <p>${responsavel.id}</p>
-          </div>
-      </div>
-      <div class="cont-13 oi">
-          <h3>Nome:</h3>
-          <div class="cont-nome">
-              <p>${responsavel.nome}</p>
-          </div>
-      </div>
-      <div class="cont-14 oi">
-          <h3>Email:</h3>
-          <div class="cont-email">
-              <p>${responsavel.email}</p>
-          </div>
-      </div>
-      <div class="cont-15 oi">
-          <h3>Telefone:</h3>
-          <div class="cont-telefone">
-              <p>${responsavel.telefone}</p>
-          </div>
-      </div>
-      <div class="cont-16 oi">
-          <h3>RG:</h3>
-          <div class="cont-nome">
-              <p>${responsavel.rg}</p>
-          </div>
-      </div>
-      <div class="cont-17 oi">
-          <h3>CPF:</h3>
-          <div class="cont-nome">
-              <p>${responsavel.cpf}</p>
-          </div>
-      </div>
+    <div class="cont-12">  
+        <h3>ID:</h3>
+        <div class="cont-id">
+            <p>${usuario.id}</p>
+        </div>
+    </div>
+    <div class="cont-13 oi">
+        <h3>Nome:</h3>
+        <div class="cont-nome">
+            <p>${usuario.nomeResponsavel}</p>
+        </div>
+    </div>
+    <div class="cont-14 oi">
+        <h3>Email:</h3>
+        <div class="cont-email">
+            <p>${usuario.emailResponsavel}</p>
+        </div>
+    </div>
+    <div class="cont-15 oi">
+        <h3>Telefone:</h3>
+        <div class="cont-telefone">
+            <p>${usuario.telefoneResponsavel}</p>
+        </div>
+    </div>
+    <div class="cont-16 oi">
+        <h3>RG:</h3>
+        <div class="cont-nome">
+            <p>${responsavel.rgResponsavel}</p>
+        </div>
+    </div>
+    <div class="cont-17 oi">
+        <h3>CPF:</h3>
+        <div class="cont-nome">
+            <p>${responsavel.cpfResponsavel}</p>
+        </div>
+    </div>
   `;
 
   // Adiciona os dados do responsável ao elemento
   contDadosResp.innerHTML = dadosResponsavelHTML;
 }
+
+
+// Função para salvar os usuários no armazenamento local
+function saveUsers() {
+  localStorage.setItem('allUsers', JSON.stringify(allUsers));
+}
+
+
+// Função para salvar os usuários no armazenamento local
+function saveUsers() {
+  localStorage.setItem('allUsers', JSON.stringify(allUsers));
+}
+
+// Função para preencher a lista de adição de usuários
+async function fillAddUserList() {
+  const addUserList = document.getElementById("add-user");
+
+  // Limpa a lista antes de adicionar novos usuários
+  addUserList.innerHTML = "";
+
+  try {
+    // Consulta ao Firestore para obter os dados dos usuários
+    const usersSnapshot = await db.collection("dadosAluno").get();
+
+    // Cria uma lista não ordenada (ul) para os usuários
+    const userList = document.createElement("ul");
+
+    // Itera sobre cada documento de usuário obtido
+    usersSnapshot.forEach((doc) => {
+      const user = doc.data();
+      const listItem = document.createElement("li");
+      listItem.textContent = `${user.icone} ${user.nome}`;
+      listItem.classList.add("user-item");
+
+      // Adiciona um evento de clique para selecionar o usuário
+      listItem.addEventListener("click", () => {
+        // Chama a função toggleSelectUser para selecionar o usuário e o item da lista clicado
+        toggleSelectUser(user, listItem);
+
+        // Exemplo de preenchimento de informações do usuário em algum lugar da interface
+        const descUserInform = document.querySelector(".desc-user-inform");
+        descUserInform.innerHTML = `
+          <div class="cont-user-icon">
+            <div class="cont-user-icon-dentro">
+              <i class="user-icon-modal">${user.icone}</i>
+            </div>
+            <div class="cont-user-icon-traz">
+            </div>
+          </div>
+          <div class="cont-user-name">
+            <span class="user-name">${user.nome}</span>
+          </div>
+          <div class="cont-close-modal">
+            <span class="close-modal" onclick="closeUserModal('myModal')">&times;</span>
+          </div>
+        `;
+      });
+
+      userList.appendChild(listItem); // Adiciona o item de lista à lista de usuários
+    });
+
+    addUserList.appendChild(userList); // Adiciona a lista de usuários ao elemento add-user
+  } catch (error) {
+    console.error("Erro ao carregar usuários:", error);
+  }
+}
+
+
 
 
 // Função para salvar os usuários no armazenamento local
@@ -658,11 +667,22 @@ function filterUsers() {
 
   // Filtra os usuários cujos nomes contêm o texto de pesquisa
   const filteredUsers = allUsers.filter((user) =>
-    user.name.toLowerCase().includes(searchInput)
+    user.nome.toLowerCase().includes(searchInput)
   );
 
   fillAddUserList(filteredUsers); // Preenche a lista de usuários filtrados
 }
+
+// Função para carregar os usuários quando a página é carregada
+function loadUsers() {
+  // Aqui você pode chamar a função para buscar usuários do Firestore ou do Realtime Database
+  fetchUsersAndDisplay(); // Exemplo de como você pode implementar essa função
+
+  // Adicionar um ouvinte ao campo de pesquisa para filtrar os usuários conforme digitado
+  const searchInput = document.getElementById("searchInputUser");
+  searchInput.addEventListener("input", filterUsers);
+}
+
 
 // Carregar os usuários quando a página é carregada
 window.addEventListener("DOMContentLoaded", loadUsers);
@@ -703,19 +723,48 @@ document
   });
   
   // Função para adicionar ou remover usuários da lista de selecionados
-  function toggleSelectUser(user, element) {
-      const userIndex = selectedUsers.findIndex(selectedUser => selectedUser.id === user.id);
+  function toggleSelectUser(user, element, event) {
+    const index = selectedUsers.findIndex((u) => u.id === user.id);
+    const myModal = document.getElementById("myModal");
+    const addUserElement = document.querySelector("#add-user ul");
   
-      if (userIndex === -1) {
-          // Usuário não está selecionado, adicionar à lista
-          selectedUsers.push(user);
-          element.classList.add("selecteds");
-      } else {
-          // Usuário já está selecionado, remover da lista
-          selectedUsers.splice(userIndex, 1);
-          element.classList.remove("selecteds");
+    if (index === -1) {
+      selectedUsers.push(user);
+      saveSelectedUsers(selectedUsers);
+      element.classList.add("selected");
+      addUserToSelected(user);
+      addUserToWrapper(user, addUserElement);
+  
+      // Definir o usuário selecionado
+      selectedUser = user;
+  
+      // Exibir os dados do usuário selecionado
+      exibirDadosUsuarioSelecionado();
+  
+      // Verificar se o clique ocorreu dentro do contêiner específico para abrir o modal
+      if (element.closest('#add-user ul')) {
+        myModal.style.display = "flex"; // Abrir o modal myModal
       }
+    } else {
+      selectedUsers.splice(index, 1);
+      saveSelectedUsers(selectedUsers);
+      element.classList.remove("selected");
+      removeUserFromSelected(user.id);
+      removeUserFromWrapper(user.id, addUserElement);
+  
+      // Verificar se o usuário desselecionado é o usuário selecionado atualmente
+      if (selectedUser && selectedUser.id === user.id) {
+        selectedUser = null; // Limpar o usuário selecionado
+      }
+  
+      // Verificar se o clique ocorreu dentro do contêiner específico para fechar o modal
+      if (element.closest('#add-user ul')) {
+        myModal.style.display = "none"; // Fechar o modal myModal
+      }
+    }
   }
+  
+  
   
   // Função para preencher a lista de usuários no modal de adição de grupo
   function fillAddGroupList(users = allUsers) {
@@ -1268,27 +1317,129 @@ document.addEventListener("click", (e) => {
     closeEventModal();
   }
 });
-// Função para criar elemento de usuário
-// Função para criar elemento de usuário
-function createUserElement(user) {
-  const userDiv = document.createElement("div");
-  userDiv.textContent = `${user.icon} ${user.name}`;
-  userDiv.classList.add("user-items");
-  userDiv.classList.add("mod-pess-user-unit");
-  userDiv.addEventListener("click", (event) => toggleSelectUser(user, userDiv, event));
-  pessoasContainer.appendChild(userDiv);
-}
 
-
+// Variável para armazenar os usuários selecionados
+let usuariosSelecionados = [];
+let selectedUsersContainer; // Será definido após o carregamento do DOM
 
 // Função para listar usuários com base no termo de pesquisa
-function listUsers(searchTerm) {
-  pessoasContainer.innerHTML = "";
-  const filteredUsers = allUsers.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm)
-  );
-  filteredUsers.forEach(createUserElement);
+async function listUsers(searchTerm) {
+  pessoasContainer.innerHTML = ""; // Limpa o conteúdo anterior
+
+  try {
+    // Consulta ao Firestore para buscar todos os usuários
+    const usersSnapshot = await db.collection("dadosAluno").get();
+
+    // Cria uma lista não ordenada (ul) para os usuários
+    const userList = document.createElement("ul");
+
+    // Itera sobre os documentos retornados pela consulta
+    usersSnapshot.forEach(doc => {
+      const user = doc.data();
+      if (user.nome.toLowerCase().includes(searchTerm.toLowerCase())) {
+        // Cria um item de lista (li) para cada usuário encontrado
+        const listItem = document.createElement("li");
+        listItem.textContent = user.nome; // Exemplo de conteúdo do item da lista
+        listItem.classList.add("user-item"); // Adiciona a classe user-item
+
+        // Adiciona evento de clique para alternar a classe selected e salvar os usuários selecionados
+        listItem.addEventListener("click", () => {
+          // Verifica se o item já está selecionado
+          const isSelected = listItem.classList.contains("selected");
+
+          // Se não estiver selecionado, adiciona a classe selected; caso contrário, remove
+          if (!isSelected) {
+            listItem.classList.add("selected");
+            // Adiciona o usuário à lista de usuários selecionados
+            const userId = doc.id; // Supondo que você tenha um ID único para cada usuário
+            const usuarioSelecionado = { id: userId, nome: user.nome }; // Adicione aqui os dados relevantes do usuário
+            usuariosSelecionados.push(usuarioSelecionado);
+          } else {
+            // Remove o usuário da lista de usuários selecionados
+            listItem.classList.remove("selected");
+            const userId = doc.id; // Supondo que você tenha um ID único para cada usuário
+            usuariosSelecionados = usuariosSelecionados.filter(u => u.id !== userId);
+          }
+
+          // Atualiza a exibição dos usuários selecionados
+          updateSelectedUsersDisplay();
+        });
+
+        // Adiciona o item de lista à lista de usuários
+        userList.appendChild(listItem);
+      }
+    });
+
+    // Adiciona a lista de usuários ao elemento pessoasContainer na interface
+    pessoasContainer.appendChild(userList);
+
+  } catch (error) {
+    console.error("Erro ao buscar e listar usuários:", error);
+  }
 }
+
+// Função para inicializar o script após o carregamento do DOM
+document.addEventListener("DOMContentLoaded", () => {
+  selectedUsersContainer = document.querySelector(".selected-users-container");
+  if (!selectedUsersContainer) {
+    console.error("Elemento .selected-users-container não encontrado no DOM.");
+    return;
+  }
+
+  // Exemplo de chamada inicial para listar todos os usuários
+  listUsers("");
+});
+
+
+function updateSelectedUsersDisplay() {
+  // Limpa o conteúdo anterior do container de usuários selecionados
+  selectedUsersContainer.innerHTML = "";
+
+  // Itera sobre os usuários selecionados e cria elementos para cada um
+  usuariosSelecionados.forEach((usuario, index) => {
+    const selectedUserElement = document.createElement("div");
+    selectedUserElement.textContent = usuario.nome; // Exemplo de conteúdo do item
+    selectedUserElement.classList.add("selected-user-item"); // Adiciona a classe para estilo
+    
+    // Adiciona margem entre os elementos, exceto o último
+    if (index < usuariosSelecionados.length - 1) {
+      selectedUserElement.style.marginRight = "10px";
+    }
+
+    // Adiciona o elemento de usuário selecionado ao container
+    selectedUsersContainer.appendChild(selectedUserElement);
+  });
+}
+
+// Função para atualizar a exibição dos usuários selecionados
+function updateSelectedUsersDisplay() {
+  if (!selectedUsersContainer) {
+    console.error("Elemento .selected-users-container não encontrado no DOM.");
+    return;
+  }
+
+  // Limpa o conteúdo anterior do container de usuários selecionados
+  selectedUsersContainer.innerHTML = "";
+
+  // Cria uma lista não ordenada (ul) para os usuários selecionados
+  const selectedUsersList = document.createElement("ul");
+
+  // Itera sobre os usuários selecionados e cria itens de lista (li) para cada um
+  usuariosSelecionados.forEach(usuario => {
+    const listItem = document.createElement("li");
+    listItem.textContent = usuario.nome; // Exemplo de conteúdo do item da lista
+    listItem.classList.add("selected-user-item"); // Adiciona a classe para estilo
+    selectedUsersList.appendChild(listItem); // Adiciona o item de lista à lista de usuários selecionados
+  });
+
+  // Adiciona a lista de usuários selecionados ao container especificado
+  selectedUsersContainer.appendChild(selectedUsersList);
+}
+
+
+
+
+
 
 // Função para fechar o modal de pesquisa de pessoas
 function closeModal() {
@@ -1371,22 +1522,6 @@ function toggleSelectUser(user, element, event) {
   }
 }
 
-function createUserElement(user) {
-  const userList = document.getElementById('add-user').querySelector('ul');
-  
-  // Criar o elemento de lista <li>
-  const userLi = document.createElement("li");
-  userLi.textContent = `${user.icone} ${user.nome}`; // Inclui um espaço entre o ícone e o nome
-  userLi.classList.add("user-item");
-  userLi.classList.add("mod-pess-user-unit");
-  
-  // Adicionar um evento de clique para alternar a seleção do usuário
-  userLi.addEventListener("click", (event) => toggleSelectUser(user, userLi, event));
-  
-  // Adicionar o elemento <li> ao elemento <ul>
-  userList.appendChild(userLi);
-}
-
 
 
 async function fetchUsersAndDisplay() {
@@ -1394,6 +1529,7 @@ async function fetchUsersAndDisplay() {
     const querySnapshot = await db.collection('dadosAluno').get();
     querySnapshot.forEach(doc => {
       const user = doc.data();
+      user.id = doc.id; // Atribuir o ID do documento ao objeto do usuário
       createUserElement(user);
       console.log("Usuário do Firestore:", user);
     });
@@ -1401,6 +1537,7 @@ async function fetchUsersAndDisplay() {
     console.error("Erro ao buscar usuários no Firestore:", error);
   }
 }
+
 
 // Chamar a função para buscar usuários e exibir na lista
 fetchUsersAndDisplay();
@@ -1702,119 +1839,111 @@ addEventTo.addEventListener("input", (e) => {
 
 
 addEventSubmit.addEventListener("click", async () => {
-    console.log("Botão de evento adicionado clicado.");
+  console.log("Botão de evento adicionado clicado.");
 
-    const eventTitle = addEventTitle.value;
-    const eventDescricion = addEventDescricion.value;
-    const eventTimeFrom = addEventFrom.value;
-    const eventTimeTo = addEventTo.value;
-    const SelectedColor = getColor();
-    const SelectedUsers = getSelectedUsers();
+  const eventTitle = addEventTitle.value;
+  const eventDescricion = addEventDescricion.value;
+  const eventTimeFrom = addEventFrom.value;
+  const eventTimeTo = addEventTo.value;
+  const SelectedColor = getColor();
+  const SelectedUsers = usuariosSelecionados; // Usuários selecionados
 
-    console.log("Dados do formulário:", eventTitle, eventDescricion, eventTimeFrom, eventTimeTo);
+  console.log("Dados do formulário:", eventTitle, eventDescricion, eventTimeFrom, eventTimeTo);
 
-    // Validação dos campos do formulário
-    if (
-        eventTitle === "" ||
-        eventTimeFrom === "" ||
-        eventTimeTo === "" ||
-        eventDescricion === ""
-    ) {
-        alert("Por favor, preencha todos os campos.");
-        return;
-    }
+  // Validação dos campos do formulário
+  if (
+      eventTitle === "" ||
+      eventTimeFrom === "" ||
+      eventTimeTo === "" ||
+      eventDescricion === ""
+  ) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+  }
 
-    // Criando uma string concatenada com dia, mês e ano
-    const eventDate = `${activeDay}-${month + 1}-${year}`;
+  // Criando uma string concatenada com dia, mês e ano
+  const eventDate = `${activeDay}-${month + 1}-${year}`;
 
-    // Objeto do novo evento a ser salvo no Firestore
-    const newEvent = {
-        title: eventTitle,
-        descrição: eventDescricion,
-        time: `${eventTimeFrom} - ${eventTimeTo}`,
-        color: SelectedColor,
-        users: SelectedUsers,
-        date: eventDate, // Salvando a data como uma string concatenada
-    };
+  // Objeto do novo evento a ser salvo no Firestore
+  const newEvent = {
+      title: eventTitle,
+      descrição: eventDescricion,
+      time: `${eventTimeFrom} - ${eventTimeTo}`,
+      color: SelectedColor,
+      users: SelectedUsers,
+      date: eventDate, // Salvando a data como uma string concatenada
+  };
 
-    let eventAdded = false;
-    eventsArr.forEach((item) => {
-        if (
-            item.date === eventDate
-        ) {
-            item.events.push({
-                title: eventTitle,
-                descrição: eventDescricion,
-                time: `${eventTimeFrom} - ${eventTimeTo}`,
-                color: SelectedColor,
-                users: SelectedUsers,
-            });
-            eventAdded = true;
-        }
-    });
+  try {
+      // Adiciona o documento à coleção 'events' no Firestore
+      const docRef = await db.collection("LembreteSecretaria").add(newEvent);
+      console.log("Evento adicionado com ID:", docRef.id);
 
-    if (!eventAdded) {
-        const eventId = Date.now(); // Gera um ID único baseado no timestamp
-        eventsArr.push({
-            id: eventId,
-            date: eventDate,
-            events: [
-                {
-                    title: eventTitle,
-                    descrição: eventDescricion,
-                    time: `${eventTimeFrom} - ${eventTimeTo}`,
-                    color: SelectedColor,
-                    users: SelectedUsers,
-                },
-            ],
-            color: SelectedColor,
-        });
-    }
+      // Atualizando o array local de eventos
+      let eventAdded = false;
+      eventsArr.forEach((item) => {
+          if (item.date === eventDate) {
+              item.events.push({
+                  title: eventTitle,
+                  descrição: eventDescricion,
+                  time: `${eventTimeFrom} - ${eventTimeTo}`,
+                  color: SelectedColor,
+                  users: SelectedUsers,
+              });
+              eventAdded = true;
+          }
+      });
 
-    // Salvando eventos, cor selecionada e usuários selecionados no localStorage
-    saveEvents(eventsArr);
-    saveColor(SelectedColor);
-    saveSelectedUsers(SelectedUsers);
+      if (!eventAdded) {
+          const eventId = Date.now(); // Gera um ID único baseado no timestamp
+          eventsArr.push({
+              id: eventId,
+              date: eventDate,
+              events: [
+                  {
+                      title: eventTitle,
+                      descrição: eventDescricion,
+                      time: `${eventTimeFrom} - ${eventTimeTo}`,
+                      color: SelectedColor,
+                      users: SelectedUsers,
+                  },
+              ],
+              color: SelectedColor,
+          });
+      }
 
-    // Limpando campos do formulário e atualizando a interface
-    addEventDescricion.value = "";
-    addEventTitle.value = "";
-    addEventFrom.value = "";
-    addEventTo.value = "";
-    addEventWrapper.classList.remove("active");
-    updateEvents(activeDay);
+      // Salvando eventos, cor selecionada e usuários selecionados no localStorage
+      saveEvents(eventsArr);
+      saveColor(SelectedColor);
+      saveSelectedUsers(SelectedUsers);
 
-    // Exibindo modal de evento adicionado
-    showEventModal({
-        title: eventTitle,
-        descrição: eventDescricion,
-        time: `${eventTimeFrom} - ${eventTimeTo}`,
-        color: SelectedColor,
-        users: SelectedUsers,
-        date: eventDate, // Exibindo a data como uma string concatenada
-    });
+      // Limpando campos do formulário e atualizando a interface
+      addEventDescricion.value = "";
+      addEventTitle.value = "";
+      addEventFrom.value = "";
+      addEventTo.value = "";
+      addEventWrapper.classList.remove("active");
+      updateEvents(activeDay);
 
-    try {
-        // Adiciona o documento à coleção 'events' no Firestore
-        const docRef = await db.collection("LembretePessoais").add(newEvent);
-        console.log("Evento adicionado com ID:", docRef.id);
+      // Exibindo modal de evento adicionado
+      showEventModal({
+          title: eventTitle,
+          descrição: eventDescricion,
+          time: `${eventTimeFrom} - ${eventTimeTo}`,
+          color: SelectedColor,
+          users: SelectedUsers,
+          date: eventDate, // Exibindo a data como uma string concatenada
+      });
 
-        // Limpar os campos do formulário e atualizar a interface
-        addEventDescricion.value = "";
-        addEventTitle.value = "";
-        addEventFrom.value = "";
-        addEventTo.value = "";
-        addEventWrapper.classList.remove("active");
-        updateEvents(activeDay);
+      console.log("Evento adicionado com sucesso!");
 
-        // Exibir o modal de evento adicionado
-        showEventModal(newEvent);
-
-    } catch (error) {
-        console.error("Erro ao adicionar evento:", error);
-        alert("Ocorreu um erro ao adicionar o evento. Por favor, tente novamente.");
-    }
+  } catch (error) {
+      console.error("Erro ao adicionar evento:", error);
+      alert("Ocorreu um erro ao adicionar o evento. Por favor, tente novamente.");
+  }
 });
+
+
 
 
 
