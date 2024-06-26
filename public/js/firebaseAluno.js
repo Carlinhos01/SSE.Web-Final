@@ -41,13 +41,13 @@ document.getElementById('add-user-form').addEventListener('submit', async (event
   try {
       const alunoId = await getNextId('dadosAluno');
       await db.collection('dadosAluno').doc(alunoId.toString()).set({
-          id: alunoId,
+          userId: alunoId,
           nome: nome,
           email: email,
-          telefone: telefone,
-          dt_nasc: dt_nasc,
+          tel: telefone,
+          dataNct: dt_nasc,
           genero: genero,
-          curserens: curserens,
+          cursos: curserens,
           instituicao: instituicao,
           cpf: cpf,
           rg: rg,
